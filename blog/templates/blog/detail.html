@@ -1,0 +1,40 @@
+<!-- {% for blog in blogs.all %}
+    <div class="container">
+        <h1>{{ blog.title }}</h1>
+        <p>{{ blog.pub_date }}</p>
+        <p>{{ blog.body }}</p>
+    </div>
+{% endfor %} -->
+
+<link rel="stylesheet" href="//unpkg.com/bootstrap@4/dist/css/bootstrap.min.css">
+<script src='//unpkg.com/jquery@3/dist/jquery.min.js'></script>
+<script src='//unpkg.com/popper.js@1/dist/umd/popper.min.js'></script>
+<script src='//unpkg.com/bootstrap@4/dist/js/bootstrap.min.js'></script>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">기업분석</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+              </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <div class="navbar-nav ml-auto">
+                <a class="nav-item nav-link active" href="#">HOME</a>
+              <a class="nav-item nav-link" href="#">블로그</a>
+              <a class="nav-item nav-link" href="#">개발자</a>
+              <form class="form-inline">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+                  </div>
+          </div>
+          </div>
+      </nav>
+</body>
+<div class="container jumbotron">
+    <h1>{{ blog.title }}</h1>
+    <p>{{ blog.pub_date }}</p>
+    <p>{{ blog.body }}</p>
+    <a href="{% url 'home' %}">돌아가기</a>
+</div>

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<link rel="stylesheet" href="//unpkg.com/bootstrap@4/dist/css/bootstrap.min.css">
+<script src='//unpkg.com/jquery@3/dist/jquery.min.js'></script>
+<script src='//unpkg.com/popper.js@1/dist/umd/popper.min.js'></script>
+<script src='//unpkg.com/bootstrap@4/dist/js/bootstrap.min.js'></script>
+<main role="main">
+
+    <section class="jumbotron text-center">
+      <div class="container">
+        <h1 class="jumbotron-heading">CAP 개발자 포트폴리오</h1>
+        <p class="lead text-muted">(중소기업청 제공 데이터 활용 기업 도산 가능성 분석과 예측)</p>
+      </div>
+    </section>
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row">
+            {% for portfolio in portfolios.all %}
+              <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                  <img class="card-img-top" src="{{ portfolio.image.url }}" alt=" Card image cap">
+                  <div class="card-body">
+                    <h4>{{ portfolio.title }}</h4>
+                    <p class="card-text">{{ portfolio.description }}</p>
+                  </div>
+                </div>
+              </div>
+          {% endfor %}
+          </div>
+        </div>
+      </div>
+  </main>
+  
+{% endblock %}
