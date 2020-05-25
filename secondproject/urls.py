@@ -17,11 +17,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.conf.urls import url
 import blog.views
 import portfolio.views
+import chart.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('chart/', include("chart.urls")),
     path('', blog.views.home, name='home'),
     path('blog/', include('blog.urls')),
     path('portfolio/', portfolio.views.portfolio, name='portfolio'),
