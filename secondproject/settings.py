@@ -9,9 +9,10 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-
+import pymysql
 import os
 
+pymysql.install_as_MySQLdb()
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,7 +26,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 
-ALLOWED_HOSTS = ['django2-env.eba-aztcpqee.us-west-2.elasticbeanstalk.com']
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'blog',
     'account',
     'chart',
+    'data',
 ]
 
 MIDDLEWARE = [
@@ -79,15 +81,14 @@ WSGI_APPLICATION = 'secondproject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'blog',
-        'USER': 'postgres',
-        'PASSWORD': 'whwo4415',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'car',
+        'USER': 'root',
+        'PASSWORD': '1234',
         'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'PORT': '3306',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -111,9 +112,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko-kr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -128,8 +129,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'portfolio', 'static')
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
