@@ -1,8 +1,7 @@
 from django.contrib import admin
-from .models import Candidate, Poll, Product
+from .models import CorFeatures, Corporates
 # Register your models here.
 
 
-admin.site.register(Candidate)
-admin.site.register(Poll)
-admin.site.register(Product)
+admin.site.register(CorFeatures)
+admin.site.register(Corporates)

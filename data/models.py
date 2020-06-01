@@ -1,34 +1,29 @@
 from django.db import models
 
-class Candidate(models.Model):
-    name = models.CharField(max_length=10)
-    introdution = models.TextField()
-    area = models.CharField(max_length=20)
-    party_nuber = models.IntegerField(default=0)
+
+class CorFeatures(models.Model):
+    date = models.DateField(db_column='Date', primary_key=True)  # Field name made lowercase.
+    cor_code = models.ForeignKey('Corporates', models.DO_NOTHING, db_column='Cor_code')  # Field name made lowercase.
+    perform_fund_situation = models.IntegerField(db_column='Perform_Fund_Situation', blank=True, null=True)  # Field name made lowercase.       
+    outlook_dom_demand = models.IntegerField(db_column='Outlook_Dom_Demand', blank=True, null=True)  # Field name made lowercase.
+    delay_money_recovery = models.IntegerField(db_column='Delay_Money_Recovery', blank=True, null=True)  # Field name made lowercase.
+    difficulty_financing = models.IntegerField(db_column='Difficulty_Financing', blank=True, null=True)  # Field name made lowercase.
+    perform_oper_profit = models.IntegerField(db_column='Perform_Oper_Profit', blank=True, null=True)  # Field name made lowercase.
+    competition_corporates = models.IntegerField(db_column='Competition_Corporates', blank=True, null=True)  # Field name made lowercase.       
+    outlook_business = models.IntegerField(db_column='Outlook_Business', blank=True, null=True)  # Field name made lowercase.
+    difficulty_manpower = models.IntegerField(db_column='Difficulty_Manpower', blank=True, null=True)  # Field name made lowercase.
+    rise_labor_costs = models.IntegerField(db_column='Rise_Labor_Costs', blank=True, null=True)  # Field name made lowercase.
+    outlook_export = models.IntegerField(db_column='Outlook_Export', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'cor_features'
+        unique_together = (('date', 'cor_code'),)
     
-    def __str__(self):
-        return self_name
+class Corporates(models.Model):
+    cor_code = models.IntegerField(db_column='Cor_code', primary_key=True)  # Field name made lowercase.
+    region = models.CharField(db_column='Region', max_length=10, blank=True, null=True)  # Field name made lowercase.
 
-class Poll(models.Model):
-    start_date = models.DateTimeField()
-    end_date = models.DateTimeField()
-    area = models.CharField(max_length = 15)
-    
-
-class Choice(models.Model):
-    poll = models.ForeignKey(Poll, on_delete=models.CASCADE) #Poll 모델의 id를 이용
-    candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE)
-    votes = models.IntegerField(default = 0)
-
-
-class Product(models.Model):
-    name = models.CharField(max_length=50)
-    alergy = models.CharField(max_length=50)
-    nutrition1= models.IntegerField(default=0)
-    nutrition2= models.IntegerField(default=0)
-    nutrition3= models.IntegerField(default=0)
-    nutrition4= models.IntegerField(default=0)
-    nutrition5= models.IntegerField(default=0)
-    nutrition6= models.IntegerField(default=0)
-    img_thumb= models.CharField(max_length=50)
-
+    class Meta:
+        managed = False
+        db_table = 'corporates'
