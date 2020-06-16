@@ -1,0 +1,157 @@
+<link rel="stylesheet" href="//unpkg.com/bootstrap@4/dist/css/bootstrap.min.css">
+<script src='//unpkg.com/jquery@3/dist/jquery.min.js'></script>
+<script src='//unpkg.com/popper.js@1/dist/umd/popper.min.js'></script>
+<script src='//unpkg.com/bootstrap@4/dist/js/bootstrap.min.js'></script>
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=nva6di4ut3"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'blog' %}">CAR</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+              </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <ul class="navbar-nav ml-auto">
+                  <li class="nav-item">
+                    <a class="nav-item nav-link" href="{% url 'chart'%}">기업도산순위</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-item nav-link" href="{% url 'char' %}">소재별도산가능성</a>
+                  </li>
+                  <li class="nav-item">
+                    <div class="btn-group">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          기업정보
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'ci' %}">광주</a>
+                            <a class="dropdown-item" href="{% url 'ci' %}">전남</a>
+                        </div>
+                      </div>
+                    </li>
+                  </div>
+            {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">환영합니다. {{ user.username }} 님!</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'nowblog' %}">글쓰기</a>
+                            <a class="dropdown-item" href="javascript:{document.getElementById('logout').submit()}">Logout</a>
+                            <form id="logout" method="POST" action="{% url 'logout' %}">
+                                {% csrf_token %} <input type="hidden" />
+                            </form>
+                        </div>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-item nav-link" href="{% url 'signup' %}">Signup</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</body>    
+<title>Search</title>
+
+<!-- <h3>당신이 입력한 기업은 "{{b.title}}"</h3>  -->
+<body>
+    <div class="container">
+        <form class="form-inline" method="get" action="{%url 'search'%}">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="b" value="{{b}}">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">기업검색</button>
+            </form>
+    <h1>광주/전남</h1>
+    <br>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <td><B>순위</B></td>
+                <td><B>기업이름</B></td>
+                <td><B>소재지</B></td>
+                <td><B>도산가능성</B></td>
+                <td><B>세부정보</B></td>
+            </tr>
+            </thead>
+            <tbody>
+            {%for x in search%}
+            <tr>
+                <td><b>{{x.Rank_risk}}</b></td>
+                <td> {{x.Cor_name}}</td>
+                <td> {{x.area}}</td>
+                <td> {{x.Cor_Risk}}</td>
+                {% if x.Cor_Risk > 6.9 %}
+                <td>
+                    <form action = "#" method="post">
+                        <button type="button" class="btn btn-danger">Danger</button>
+                    </form>
+                </td>
+                {% else %}
+                <td>
+                    <form action = "#" method="post">
+                        <button type="button" class="btn btn-warning">Warning</button>
+                    </form>
+                </td>
+                {% endif %}
+            </tr>
+            </tbody>
+        </table>
+        <div class="media">
+            <img src="C:\\Users\\jjhst\\OneDrive\\바탕 화면\\그림01.png" class="align-self-center mr-3" alt="">
+            <div class="media-body">
+              <h5 class="mt-0">기업이름 "{{b.title}}" 분석정보입니다</h5>
+              <p>기업 리스크 {{x.Cor_Risk}}% 입니다</p>
+              <p>해당 기업의 도산가능성에서 자금사정실적이 차지하는 비율은 25%, 경기전망이 차지하는 비율은 15%, 판매대금회수지연이 차지하는 비율은 11%입니다.</p>
+                <canvas id="myChart"; width="300"; height="300"; float=none; class="align-self-center mr-3"></canvas>
+                <script>
+                    var ctx = document.getElementById('myChart');
+                    var myChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: ['자금사정실적', '내수전망 ', '판매대금회수지연 '],
+                            datasets: [{
+                                label: '# 지역 평균 도산 가능성 #',
+                                data: [25, 15, 11],
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(153, 102, 255, 0.2)',
+                                    'rgba(255, 159, 64, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: false,
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            },
+                        }
+                    });
+                </script>
+            </div>
+          </div>
+    </div>
+    {%endfor%}
+    </tbody>
+</table>
+

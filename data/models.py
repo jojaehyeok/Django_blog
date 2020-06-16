@@ -27,3 +27,22 @@ class Corporates(models.Model):
     class Meta:
         managed = False
         db_table = 'corporates'
+
+class CorRisk(models.Model):
+    risk_bankruptcy = models.FloatField(db_column='Risk_Bankruptcy', blank=True, null=True)  # Field name made lowercase.
+    cor_code = models.IntegerField(db_column='Cor_code', primary_key=True)  # Field name made lowercase.
+    date = models.DateField(db_column='Date')  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'cor_risk'
+        unique_together = (('cor_code', 'date'),)
+
+ 
+# Create your views here.
+def index(request):
+    candidates = Candidate.objects.all()
+    context = {'candidates':candidates}
+        #context에 모든 어린이 정보를 저장
+    return render(request, 'chart/home.html', context)
+        #context안에 있는 어린이 정보를 index.html로 전달
